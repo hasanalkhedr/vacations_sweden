@@ -118,15 +118,15 @@
                                     </ul>
                                 </li>
                             @endunless
-                            <!-- @if (auth()->user()->can_submit_requests)
+                            @if (auth()->user()->can_submit_requests)
                                 <li>
                                     <a href="{{ url(route('overtimes.submitted')) }}"
                                         class="flex items-center mx-2 px-2 py-2 text-white rounded-lg transition duration-75 group hover:bg-blue-500">
                                         <span class="mx-2 font-medium">{{ __('Submitted Overtime Requests') }}</span>
                                     </a>
                                 </li>
-                            @endif -->
-                            <!-- @unless (auth()->user()->hasExactRoles('employee') && auth()->user()->is_supervisor == false)
+                            @endif
+                            @unless (auth()->user()->hasExactRoles('employee') && auth()->user()->is_supervisor == false)
                                 <li>
                                     <button type="button"
                                         class="flex items-center mx-2 p-2 w-full text-base font-normal text-white rounded-lg transition duration-75 group hover:bg-blue-500"
@@ -162,7 +162,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                            @endunless -->
+                            @endunless
                             @if (auth()->user()->hasRole(['human_resource', 'sg', 'head']))
                                 <li>
                                     <a class="flex items-center mx-2 px-2 py-2 text-white rounded-lg transition duration-75 group hover:bg-blue-500"
