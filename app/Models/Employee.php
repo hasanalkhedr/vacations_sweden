@@ -91,7 +91,7 @@ class Employee extends Authenticatable
         $roles = [];
         foreach ($this->getRoleNames() as $name) {
             if($name == "Employee" && $this->is_supervisor) {
-                $roles [] = ucfirst(__("HEAD"));
+                $roles [] = ucfirst(__("Supérieure Hiérarchique"));
             }
             else {
                 $roles [] = ucfirst(__($name));

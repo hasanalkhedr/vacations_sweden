@@ -20,7 +20,7 @@
                 disabled
                 value="{{ $department->manager ? $department->manager->first_name . ' ' . $department->manager->last_name : '-' }}" />
             <label for="supervisor"
-                class="peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-60 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 blue-color">{{ __('HEAD') }}</label>
+                class="peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-60 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 blue-color">{{ __('Supérieure Hiérarchique') }}</label>
         </div>
 
         @hasanyrole('human_resource|sg|head')
@@ -77,11 +77,11 @@
                         </div>
                         <div class="relative z-0 mb-6 w-full group">
                             <label for="manager_id"
-                                class="mb-2 text-sm font-medium blue-color">{{ __('Select HEAD') }}</label>
+                                class="mb-2 text-sm font-medium blue-color">{{ __('Select Supérieure Hiérarchique') }}</label>
                             <select name="manager_id" id="manager_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="" {{ !$department->manager_id ? 'selected' : '' }}>
-                                    {{ __('No HEAD assigned') }}</option>
+                                    {{ __('No Supérieure Hiérarchique assigned') }}</option>
                                 @if (count($department->employees))
                                     @foreach ($department->employees as $employee)
                                         <option value="{{ $employee->id }}"

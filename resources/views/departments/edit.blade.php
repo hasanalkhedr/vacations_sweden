@@ -19,7 +19,7 @@
             value="{{ $department->name }}"
         />
         <select name='manager_id'>
-            <option value="" disabled>Choose HEAD</option>
+            <option value="" disabled>Choose Supérieure Hiérarchique</option>
             @if(count($employees))
                 @foreach ($employees as $employee)
                     @if($employee->id === $department->manager_id)

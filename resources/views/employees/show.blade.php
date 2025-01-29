@@ -337,11 +337,11 @@
                         @if ($employee->department)
                             <div class="hidden relative z-0 mb-4 w-full group" id="new_manager--{{ $employee->id }}">
                                 <label for="manager_id" class="mb-2 italic text-sm font-medium text-red-900">
-                                    *{{ __('Please assign a new HEAD for the department') }}*
+                                    *{{ __('Please assign a new Supérieure Hiérarchique for the department') }}*
                                 </label>
                                 <select name="manager_id"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option value="" disabled>{{ __('Choose New HEAD') }}</option>
+                                    <option value="" disabled>{{ __('Choose New Supérieure Hiérarchique') }}</option>
                                     @if (count($employee->department->employees))
                                         @foreach ($employee->department->employees as $department_employee)
                                             @unless($department_employee->id == $employee->id)

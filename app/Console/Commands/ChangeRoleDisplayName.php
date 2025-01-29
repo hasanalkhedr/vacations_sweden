@@ -26,12 +26,12 @@ class ChangeRoleDisplayName extends Command
      */
     public function handle()
     {
-        $role = Role::firstWhere('name', 'sg');
-        $role->display_name = 'PM';
-        $role->save();
+        // $role = Role::firstWhere('name', 'sg');
+        // $role->display_name = 'PM';
+        // $role->save();
 
         $role = Role::firstWhere('name', 'head');
-        $role->display_name = 'MD';
+        $role->display_name = 'Directice IF';
         $role->save();
 
         return Command::SUCCESS;
