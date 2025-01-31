@@ -15,11 +15,11 @@ class EmployeeService
     {
         $loggedInUser = auth()->user();
         if ($loggedInUser->hasRole('human_resource') || $loggedInUser->hasRole(['human_resource', 'sg', 'head'])) {
-            return Employee::search(request(['search']))->whereNot('id', $loggedInUser->id)->paginate(10);
+            return Employee::search(request(['search']))->whereNot('id', $loggedInUser->id)->paginate(50);
         } else {
             return Employee::whereHas('department', function ($q) use ($loggedInUser) {
                 $q->where('manager_id', $loggedInUser->id);
-            })->search(request(['search']))->whereNot('id', $loggedInUser->id)->paginate(10);
+            })->search(request(['search']))->whereNot('id', $loggedInUser->id)->paginate(50);
         }
     }
 
@@ -31,7 +31,7 @@ class EmployeeService
         $new_manager->is_supervisor = true;
         $new_manager->save();
         $isOldSupervisorInOtherDepartments = Department::whereManagerId($old_supervisor->id)->count() > 1;
-        if(!$isOldSupervisorInOtherDepartments) {
+        if (!$isOldSupervisorInOtherDepartments) {
             $old_supervisor->is_supervisor = false;
             $old_supervisor->save();
         }

@@ -8,10 +8,10 @@
             <select name="employee_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 @if (count($employees))
-                    @foreach ($employees as $employee)
-                        <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}
-                        </option>
-                    @endforeach
+                @foreach ($employees as $employee)
+                <option value="{{ $employee->id }}">{{ $employee->first_name }} {{ $employee->last_name }}
+                </option>
+                @endforeach
                 @endif
             </select>
             <div class="relative z-0 my-3 w-full group">
@@ -19,13 +19,13 @@
                 <div class="weekday-selector">
                     <div class="weekday-checkboxes">
                         @if (count($leaveTypes))
-                            @foreach ($leaveTypes as $leaveType)
-                                <div class="weekday-container text-gray-900 text-sm">
-                                    <input type="checkbox" id="leaveType-{{ $leaveType->id }}" name="leave_types[]"
-                                        value="{{ $leaveType->id }}">
-                                    <label for="weekday-{{ $leaveType->id }}">{{ $leaveType->abbreviation }}</label>
-                                </div>
-                            @endforeach
+                        @foreach ($leaveTypes as $leaveType)
+                        <div class="weekday-container text-gray-900 text-sm">
+                            <input type="checkbox" id="leaveType-{{ $leaveType->id }}" name="leave_types[]"
+                                value="{{ $leaveType->id }}">
+                            <label for="weekday-{{ $leaveType->id }}">{{ __($leaveType->name) }}</label>
+                        </div>
+                        @endforeach
                         @endif
                     </div>
                 </div>
@@ -36,10 +36,10 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option value="all">All</option>
                 @if (count($leaveTypes))
-                    @foreach ($leaveTypes as $leaveType)
-                        <option value="{{ $leaveType->id }}">{{ $leaveType->name }}: {{ $leaveType->abbreviation }}
-                        </option>
-                    @endforeach
+                @foreach ($leaveTypes as $leaveType)
+                <option value="{{ $leaveType->id }}">{{ $leaveType->name }}: {{ $leaveType->abbreviation }}
+                </option>
+                @endforeach
                 @endif
             </select> --}}
         </div>
@@ -51,7 +51,7 @@
                 <input required type="text" name="from_date" id="fromDate"
                     placeholder="{{ __('Please select date range') }}" data-input>
                 @error('from')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
             <div class="relative z-0 mb-6 w-full group flex flex-col" id="toDateDiv">
@@ -61,7 +61,7 @@
                 <input required type="text" name="to_date" id="toDate"
                     placeholder="{{ __('Please select date range') }}" data-input>
                 @error('to')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
         </div>

@@ -60,15 +60,9 @@
     color: var(--primary-color);
 }
 
-
-.weekday-selector {
-}
-
 .weekday-checkboxes {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0px;
-    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .weekday-checkboxes input[type="checkbox"] {
@@ -82,21 +76,20 @@
     position: relative;
     border: 1px solid #ccc;
     display: flex;
-    width: 100%;
-    aspect-ratio: 1/1;
+    width: 125px;
+    height: 70px;
     justify-content: center;
     align-items: center;
 }
 
 .weekday-checkboxes label {
     width: 100%;
-    aspect-ratio: 1/1;
     justify-content: center;
     display: flex;
     /*z-index: 9999;*/
     align-items: center;
     align-content: center;
-
+    height: 100%;
     cursor: pointer;
 }
 
