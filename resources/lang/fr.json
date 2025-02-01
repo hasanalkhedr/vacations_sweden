@@ -252,5 +252,6 @@
     "The minimum length is 6 characters.": "La longueur minimale est de 6 caractères.",
     "The password confirmation does not match.": "La confirmation du mot de passe ne correspond pas.",
     "Weekdays off": "Jours fériés",
+    "Bypass officers": "Contourner l'approbation",
     "You have insufficient balance to submit this request. You may have already booked more days than available in your balance.": "Votre solde est insuffisant pour soumettre cette demande. Vous avez peut-être déjà réservé plus de jours que ce qui est disponible dans votre solde."
 }

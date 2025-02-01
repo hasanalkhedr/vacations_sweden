@@ -222,7 +222,7 @@
                     </div>
                 </div>
                 <!-- Modal body -->
-                <div class="p-6">
+                <div class="p-6 overflow-y-auto" style="max-height: 500px">
                     <form method="POST"
                         action="{{ route('employees.updateProfile', ['employee' => $employee->id]) }}"
                         enctype="multipart/form-data">
@@ -374,6 +374,19 @@
                                         {{ $employee->can_receive_emails ? 'checked' : '' }}>
                                 </div>
                                 @error('can_receive_emails')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 md:gap-6">
+                            <div class="relative z-0 mb-6 w-full group">
+                                <p class="mb-2 text-sm font-medium blue-color">{{ __('Bypass officers') }}</p>
+                                <div class="mt-2 flex flex-row">
+                                    <input type="checkbox" name="bypass_officers" id="bypass-officers--{{$employee->id}}"
+                                        {{ $employee->bypass_officers ? 'checked' : '' }}>
+                                </div>
+                                @error('bypass_officers')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>

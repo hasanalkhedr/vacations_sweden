@@ -328,7 +328,7 @@
 
                                             <div class="grid md:grid-cols-2 md:gap-6">
                                                 <div class="relative z-0 mb-6 w-full group">
-                                                    <p class="mb-2 text-sm font-medium blue-color">{{__("Bypass Officers")}}</p>
+                                                    <p class="mb-2 text-sm font-medium blue-color">{{__("Bypass officers")}}</p>
                                                     <div class="mt-2 flex flex-row">
                                                         <input type="checkbox" name="bypass_officers" {{ $employee->bypass_officers ? 'checked' : '' }}>
                                                     </div>
@@ -617,7 +617,7 @@
 
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 mb-4 w-full group">
-                                    <p class="mb-2 text-sm font-medium blue-color">{{__("Bypass Officers")}}</p>
+                                    <p class="mb-2 text-sm font-medium blue-color">{{__("Bypass officers")}}</p>
                                     <div class="mt-2 flex flex-row">
                                         <input type="checkbox" name="bypass_officers">
                                     </div>
