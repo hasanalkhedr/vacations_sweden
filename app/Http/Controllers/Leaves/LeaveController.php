@@ -106,19 +106,26 @@ class LeaveController extends Controller
         }
         $leave->disabled_dates = $serializedArr;
 
-        if ($leave->employee->hasRole('human_resource') && $leave->employee->can_submit_requests) {
-            $role = Role::findByName('sg');
-            $head = Employee::role('head')->get();
-            $processing_officers = Employee::role('sg')->get()->concat($head)->all();
-            $leave->processing_officer_role = $role->id;
-        } else if ($leave->employee->department->manager->hasRole('sg') || $leave->employee->is_supervisor || in_array($leave->employee->department->id, [2, 7, 14])) {
-            $role = Role::findByName('human_resource');
-            $processing_officers = Employee::role('human_resource')->get();
-            $leave->processing_officer_role = $role->id;
+        if ($leave->employee->bypass_officers) {
+            $role_sg = Role::findByName('sg');
+            $leave->processing_officer_role = $role_sg->id;
+            $leave_service->acceptLeave($leave);
+            $processing_officers = NULL;
         } else {
-            $role = Role::findByName('employee');
-            $processing_officers = collect([auth()->user()->department->manager]);
-            $leave->processing_officer_role = $role->id;
+            if ($leave->employee->hasRole('human_resource') && $leave->employee->can_submit_requests) {
+                $role = Role::findByName('sg');
+                $head = Employee::role('head')->get();
+                $processing_officers = Employee::role('sg')->get()->concat($head)->all();
+                $leave->processing_officer_role = $role->id;
+            } else if ($leave->employee->department->manager->hasRole('sg') || $leave->employee->is_supervisor || in_array($leave->employee->department->id, [2, 7, 14])) {
+                $role = Role::findByName('human_resource');
+                $processing_officers = Employee::role('human_resource')->get();
+                $leave->processing_officer_role = $role->id;
+            } else {
+                $role = Role::findByName('employee');
+                $processing_officers = collect([auth()->user()->department->manager]);
+                $leave->processing_officer_role = $role->id;
+            }
         }
 
         $recoveryLeave = LeaveType::where('name', 'recovery')->first();

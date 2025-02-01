@@ -89,6 +89,7 @@ class EmployeeController
 
         $employee->can_submit_requests = $request->has('can_submit_requests');
         $employee->can_receive_emails = $request->has('can_receive_emails');
+        $employee->bypass_officers = $request->has('bypass_officers'); // Add this line
 
         if($request->hasFile('profile_photo')) {
             $employee['profile_photo'] = $request->file('profile_photo')->store('profile_photos', 'public');
@@ -215,6 +216,7 @@ class EmployeeController
 
         $employee->can_submit_requests = $request->has('can_submit_requests');
         $employee->can_receive_emails = $request->has('can_receive_emails');
+        $employee->bypass_officers = $request->has('bypass_officers'); // Add this line
 
         if($request->hasFile('profile_photo')) {
             if($employee->profile_photo) {

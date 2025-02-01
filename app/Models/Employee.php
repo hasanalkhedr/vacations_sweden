@@ -30,6 +30,7 @@ class Employee extends Authenticatable
         'department_id',
         'weekdays_off',
         'profile_photo',
+        'bypass_officers', // Add this line
     ];
 
     /**
@@ -53,6 +54,7 @@ class Employee extends Authenticatable
     protected $attributes = [
         'nb_of_days' => 30,
         'overtime_minutes' => 0,
+        'bypass_officers' => false, // Add this line
     ];
 
     public function scopeSearch($query, array $filters)
