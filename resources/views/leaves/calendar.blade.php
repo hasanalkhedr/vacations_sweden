@@ -1,16 +1,20 @@
 <x-sidebar>
     @section('title', __('Calendar'))
-    <div class="w-full bg-white flex justify-between items-center blue-color">
-        <div class="p-4 text-lg">
+    <div class="w-full bg-white flex items-center blue-color">
+        <div class="p-4 text-lg m-5">
+            <button onclick="changeMonth('prev')" class="mr-2">&lt;</button>
             {{ $month_name }} {{ $year }}
+            <button onclick="changeMonth('next')" class="ml-2">&gt;</button>
         </div>
         <div class="px-6 py-3 text-xl font-bold text-black">
-            <a href="{{ url(route('leaves.getCalendarForm')) }}">
-                <button
-                    class="text-white border hover:bg-blue-400 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 blue-bg">
-                    {{ __('Generate New Calendar') }}
-                </button>
-            </a>
+            <select id="departmentSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-3">
+                <option value="all" {{ request('department_id') == 'all' ? 'selected' : '' }}>All</option>
+                @foreach ($departments as $department)
+                    <option value="{{ $department->id }}" {{ request('department_id') == $department->id ? 'selected' : '' }}>
+                        {{ $department->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="my-2 mx-4 grid grid-cols-3 gap-4">
@@ -99,4 +103,38 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        function changeMonth(direction) {
+            let url = new URL(window.location.href);
+            let searchParams = new URLSearchParams(url.search);
+            let currentMonth = parseInt(searchParams.get('month')) || {{ now()->month }};
+            let currentYear = parseInt(searchParams.get('year')) || {{ now()->year }};
+            if (direction === 'prev') {
+                currentMonth--;
+                if (currentMonth < 1) {
+                    currentMonth = 12;
+                    currentYear--;
+                }
+            } else if (direction === 'next') {
+                currentMonth++;
+                if (currentMonth > 12) {
+                    currentMonth = 1;
+                    currentYear++;
+                }
+            }
+            searchParams.set('month', currentMonth);
+            searchParams.set('year', currentYear);
+            url.search = searchParams.toString();
+            window.location.href = url.toString();
+        }
+
+        document.getElementById('departmentSelect').addEventListener('change', function() {
+            let url = new URL(window.location.href);
+            let searchParams = new URLSearchParams(url.search);
+            searchParams.set('department_id', this.value);
+            url.search = searchParams.toString();
+            window.location.href = url.toString();
+        });
+    </script>
 </x-sidebar>

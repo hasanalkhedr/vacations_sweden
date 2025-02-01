@@ -71,9 +71,7 @@ Route::group(['middleware' => 'role_custom:employee|human_resource|sg|head', 'co
     Route::post('/generateReport', 'generateReport')->name('generateReport');
     Route::get('/{leave}/show', 'show')->name('show');
     Route::group(['prefix' => '/calendar'], function () {
-        Route::get('/get-form', 'getCalendarForm')->name('getCalendarForm');
-        Route::post('/generate', 'generateCalendar')->name('generateCalendar');
-        Route::get('/get-calendar', 'getCalendar')->name('getCalendar');
+        Route::get('/generate', 'generateCalendar')->name('generateCalendar');
     });
     Route::get('/index', 'index')->name('index');
 });

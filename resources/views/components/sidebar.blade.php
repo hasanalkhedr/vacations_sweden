@@ -181,7 +181,7 @@
                                     auth()->user()->hasRole(['human_resource', 'sg', 'head']))
                                 <li>
                                     <a class="flex items-center mx-2 px-2 py-2 text-white rounded-lg transition duration-75 group hover:bg-blue-500"
-                                        href="{{ route('leaves.getCalendarForm') }}">
+                                        href="{{ route('leaves.generateCalendar') }}">
                                         <span class="mx-2 font-medium">{{ __('Calendar') }}</span>
                                     </a>
                                 </li>

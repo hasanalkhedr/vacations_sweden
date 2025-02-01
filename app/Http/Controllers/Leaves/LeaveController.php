@@ -276,31 +276,14 @@ class LeaveController extends Controller
         }
     }
 
-    public function getCalendarForm()
-    {
-        $startOfYear = Carbon::now()->startOfYear();
-        $endOfYear = Carbon::now()->endOfYear();
-        $months = [];
-
-        for ($monthNum = 1; $monthNum <= 12; $monthNum++) {
-            $dateObj = \DateTime::createFromFormat('!m', $monthNum);
-            $months[] = [$dateObj->format('m'), $dateObj->format('F')];
-        }
-        $departments = Department::all();
-        return view('leaves.calendar-form', [
-            'departments' => $departments,
-            'months' => $months
-        ]);
-    }
-
     public function generateCalendar(Request $request)
     {
         $helper = new Helper();
-        $year = $request->year;
-        $month = Carbon::createFromDate($year, $request->month, 1);
-        $month_name = $month->monthName;
-        $start_of_month = $month->copy()->startOfMonth();
-        $end_of_month = $month->copy()->endOfMonth();
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+        $month_name = Carbon::createFromDate($year, $month, 1)->monthName;
+        $start_of_month = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $end_of_month = Carbon::createFromDate($year, $month, 1)->endOfMonth();
         $period = CarbonPeriod::create($start_of_month, $end_of_month);
 
         // Initialize arrays
@@ -317,7 +300,8 @@ class LeaveController extends Controller
         }
 
         // Determine which employees and leaves to fetch
-        if ($request->department_id == 'all') {
+        $department_id = $request->input('department_id', 'all');
+        if ($department_id == 'all') {
             // Fetch all employees, including soft-deleted ones
             $employees = Employee::withTrashed()->get();
             $employeeIds = $employees->pluck('id')->toArray();
@@ -338,7 +322,7 @@ class LeaveController extends Controller
                 $department = Department::find(auth()->user()->department_id);
             } else {
                 // If privileged, use the requested department ID
-                $department = Department::find($request->department_id);
+                $department = Department::find($department_id);
             }
 
             // Fetch employees from the selected department, including soft-deleted ones
@@ -419,9 +403,9 @@ class LeaveController extends Controller
             'employees'            => $employees,
             'leaveId_dates_pairs'  => $leaveId_dates_pairs,
             'holidays'             => $holidays,
+            'departments'          => Department::all(),
         ]);
     }
-
 
     public function downloadAttachment(Leave $leave)
     {
