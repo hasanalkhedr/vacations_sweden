@@ -93,10 +93,15 @@ class LeaveService
                     $processing_officers = NULL;
                     break;
                 }
-                $role = Role::findByName('human_resource');
+                $role = Role::findByName('sg');
                 $leave->processing_officer_role = $role->id;
-                $processing_officers = Employee::role('human_resource')->get();
+                $head = Employee::role('head')->get();
+                $processing_officers = Employee::role('sg')->get()->concat($head)->all();
                 break;
+                // $role = Role::findByName('human_resource');
+                // $leave->processing_officer_role = $role->id;
+                // $processing_officers = Employee::role('human_resource')->get();
+                // break;
             case ('sg'):
                 $this->acceptLeave($leave);
                 $processing_officers = NULL;
