@@ -103,10 +103,16 @@ class EmployeeController
     public function logout(Request $request) {
         auth()->logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken(); // Add this to prevent 302 loops
-
-        return redirect('/login'); // or specify 'vacations/login' if that's the desired page
-    }
+        $request->session()->regenerateToken(); // Prevent 302 loops
+    
+        if (!config('app.debug')) {
+            // Redirect to external URL only in production (when APP_DEBUG is false)
+            return redirect()->away('https://phare-if.com');
+        }
+    
+        // Redirect to local login page in development
+        return redirect('/login');
+    }    
 
     public function index() {
         $user = auth()->user();
