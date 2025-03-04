@@ -16,7 +16,7 @@
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
         <!-- Logo -->
         <div class="mb-8 flex justify-center">
-            <img src="{{ asset('assets/images/logo-IFL.png') }}" class="w-3/12" alt="Logo" />
+            <img src="{{ asset('assets/images/logo-IF.png') }}" class="w-3/12" alt="Logo" />
         </div>
 
         <!-- Buttons -->

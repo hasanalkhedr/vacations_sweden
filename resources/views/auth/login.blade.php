@@ -26,9 +26,9 @@
                         @csrf
 
                         <!-- Logo -->
-                        <!-- <div class="flex justify-center">
-                            <img src="{{ asset('assets/images/logo-IFL.png') }}" class="w-2/4" alt="Logo" />
-                        </div> -->
+                        <div class="flex justify-center">
+                            <img src="{{ asset('assets/images/logo-IF.png') }}" class="w-2/4" alt="Logo" />
+                        </div>
 
                         <div
                             class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">

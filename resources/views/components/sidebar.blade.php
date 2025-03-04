@@ -35,9 +35,9 @@
     <div>
         <div class="lg:flex h-full min-h-screen">
             <div class="lg:flex-column lg:w-1/6 border-blue-200 blue-bg-sidebar">
-                <!-- <div class="logo-container w-full">
-                    <img src="{{ asset('assets/images/logo-IFL.png') }}" alt="" />
-                </div> -->
+                <div class="logo-container w-full">
+                    <img src="{{ asset('assets/images/logo-IF.png') }}" alt="" />
+                </div>
                 <div class="flex flex-row items-center place-content-between">
                     <div class="lg:pt-6">
                         <button data-collapse-toggle="aside-default"
