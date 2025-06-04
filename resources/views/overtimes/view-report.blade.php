@@ -55,7 +55,7 @@
                         </td>
                         <td class="border-b py-4 px-6 text-gray-900 whitespace-nowrap">
                             <div>
-                                {{\Carbon\Carbon::createFromFormat('H:i:s',$overtime->hours)->format('h:i')}}
+                                {{$overtime->hours}}
                             </div>
                         </td>
                     </tr>

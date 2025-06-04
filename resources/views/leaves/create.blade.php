@@ -291,14 +291,14 @@
                 handleRecoveryLeaveChecks(dateDifference, selectedLeaveDurationText);
             }
             // Check other leave types (excluding remote work or handling them as well)
-            else if (selectedLeaveTypeText !== "remote work") {
+            else if (selectedLeaveTypeText !== "{{__('remote work')}}".toLowerCase()) {
                 handleRegularLeaveChecks(dateDifference, selectedLeaveDurationText);
             }
         }
 
         function handleRecoveryLeaveChecks(dateDifference, leaveDurationText) {
             // Recovery leave checks against overtime days
-            if (leaveDurationText.includes("full days")) {
+            if (leaveDurationText.includes("full days") || leaveDurationText.includes("journée entière")) {
                 // One or More Full Days
                 if (dateDifference > userOvertimeDays) {
                     let text = "{{ __('You chose a range of') }} " + dateDifference +
@@ -319,7 +319,7 @@
 
         function handleRegularLeaveChecks(dateDifference, leaveDurationText) {
             // Regular leave checks
-            if (leaveDurationText.includes("full days")) {
+            if (leaveDurationText.includes("full days") || leaveDurationText.includes("journée entière")) {
                 if (dateDifference > userNbOfDays) {
                     let text = "{{ __('You chose a range of') }} " + dateDifference +
                                " {{ __('days but you only have') }} " + userNbOfDays +
@@ -413,7 +413,7 @@
             const attachmentInput = document.getElementById("attachment_path");
 
             // Show attachment requirement for sick leave
-            if (selectedTypeText === "sick leave") {
+            if (selectedTypeText === '{{__("sick leave")}}'.toLowerCase()) {
                 attachmentSpan.classList.remove('hidden');
                 attachmentInput.required = true;
             } else {
@@ -422,7 +422,7 @@
             }
 
             // If leave type is sick or bereavement, skip disabled_dates check
-            if (['sick leave', 'bereavement leave'].includes(selectedTypeText)) {
+            if (['sick leave', 'bereavement leave'].includes(selectedTypeText) || ['arrêt maladie', 'congé deuil'].includes(selectedTypeText)) {
                 skipBlockedDatesCheck = true;
             } else {
                 skipBlockedDatesCheck = false;
