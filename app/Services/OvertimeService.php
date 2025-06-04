@@ -107,10 +107,17 @@ class OvertimeService
     }
 
     public function getOvertimeMinutes($overtime) {
-        $time = Carbon::createFromTimeString($overtime->hours);
+// Split the time string into hours, minutes, seconds
+list($hours, $minutes, $seconds) = explode(':', $overtime->hours);
+
+// Calculate total minutes
+$totalMinutes = ($hours * 60) + $minutes;
+
+return $totalMinutes;
+/*        $time = Carbon::createFromTimeString($overtime->hours);
         $start_of_day = Carbon::createFromTimeString($overtime->hours)->startOfDay();
         return $time->diffInMinutes($start_of_day);
-    }
+  */  }
 
     public function fetchOvertimes($employee_id, $from_date = null, $to_date = null) {
         $employee = Employee::whereId($employee_id)->first();

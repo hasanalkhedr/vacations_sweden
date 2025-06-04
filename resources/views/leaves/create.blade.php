@@ -287,7 +287,7 @@
             const selectedLeaveDurationText = $("#leave_duration_id option:selected").text().toLowerCase();
 
             // Check conditions for recovery leaves
-            if (selectedLeaveTypeText === "recovery") {
+            if (selectedLeaveTypeText === "recovery" || selectedLeaveTypeText ==="{{__("recovery")}}".toLowerCase()) {
                 handleRecoveryLeaveChecks(dateDifference, selectedLeaveDurationText);
             }
             // Check other leave types (excluding remote work or handling them as well)

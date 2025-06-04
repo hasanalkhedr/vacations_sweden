@@ -15,7 +15,7 @@
                 {{ __('Remaining Leaves') }}
             </div>
         </div>
-        @unless ($leaves->isEmpty())
+{{--        @unless ($leaves->isEmpty())
             <div class="m-4">
                 <div class="text-md font-bold">
                     {{ __('Leave Types Count') }}:
@@ -29,7 +29,22 @@
                 @endforeach
             </div>
         @endunless
-        <table class="w-full text-sm text-left text-gray-500">
+--}}
+ @unless($leaves->isEmpty())
+    <div class="m-4">
+        <div class="text-md font-bold">
+            {{__("Leave Types Count")}}:
+        </div>
+        @foreach($data as $key => $count)
+            @if($count > 0)
+                <div class="text-md">
+                    {{ $count }} {{__($key) }}
+                </div>
+            @endif
+        @endforeach
+    </div>
+@endunless    
+    <table class="w-full text-sm text-left text-gray-500">
             @unless ($leaves->isEmpty())
                 <thead class="text-s text-center text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -95,8 +110,12 @@
             </tbody>
         </table>
     </div>
-
+{{--
     <div class="mt-6 p-4">
         {{ $leaves->links() }}
+    </div>
+--}}
+<div class="mt-6 p-4">
+        {{ $leaves->appends(request()->input())->links() }}
     </div>
 </x-sidebar>

@@ -115,24 +115,131 @@
             }
         })
 
-        function calculateOvertimeHours(fromTime, toTime) {
-            let from = fromTime.val().split(':');
-            let to = toTime.val().split(':');
-            let startDate = new Date(0, 0, 0, from[0], from[1], 0);
-            let endDate = new Date(0, 0, 0, to[0], to[1], 0);
-            let diff = endDate.getTime() - startDate.getTime();
-            let hours = Math.floor(diff / 1000 / 60 / 60);
-            diff -= hours * 1000 * 60 * 60;
-            let minutes = Math.floor(diff / 1000 / 60);
+// function calculateOvertimeHours(fromTime, toTime) {
+        //     let from = fromTime.val().split(':');
+        //     let to = toTime.val().split(':');
+        //     let startDate = new Date(0, 0, 0, from[0], from[1], 0);
+        //     let endDate = new Date(0, 0, 0, to[0], to[1], 0);
+        //     let diff = endDate.getTime() - startDate.getTime();
+        //     let hours = Math.floor(diff / 1000 / 60 / 60);
+        //     diff -= hours * 1000 * 60 * 60;
+        //     let minutes = Math.floor(diff / 1000 / 60);
 
-            // If using time pickers with 24 hours format, add the below line get exact hours
-            if (hours < 0)
-                hours = hours + 24;
-            if(multiplyHours) {
-                let total_minutes = Math.ceil((hours*60 + minutes) * MULTIPLIER);
-                hours = Math.floor(total_minutes/60);
-                minutes = total_minutes % 60;
+        //     // If using time pickers with 24 hours format, add the below line get exact hours
+        //     if (hours < 0)
+        //         hours = hours + 24;
+        //     if(multiplyHours) {
+        //         let total_minutes = Math.ceil((hours*60 + minutes) * MULTIPLIER);
+        //         hours = Math.floor(total_minutes/60);
+        //         minutes = total_minutes % 60;
+        //     }
+        //     return (hours <= 9 ? "0" : "") + hours + ":" + (minutes <= 9 ? "0" : "") + minutes;
+        // }
+        function calculateOvertimeHours(fromTime, toTime) {
+            // Parse input times with AM/PM consideration
+            let parseTime = (timeStr) => {
+                let [time, period] = timeStr.split(/(am|pm)/i).filter(Boolean);
+                let [hours, minutes] = time.split(':').map(Number);
+                if (period?.toLowerCase() === 'pm' && hours < 12) hours += 12;
+                if (period?.toLowerCase() === 'am' && hours === 12) hours = 0;
+                return {
+                    hours,
+                    minutes
+                };
+            };
+
+            let from = parseTime(fromTime.val());
+            let to = parseTime(toTime.val());
+            let startHour = from.hours;
+            let startMin = from.minutes;
+            let endHour = to.hours;
+            let endMin = to.minutes;
+
+            // Get the date from the date picker
+            let $row = $(fromTime).closest("tr");
+            let dateInput = $row.find("input[name^='date']").val();
+            let date = new Date(changeDateFormat(dateInput));
+            const offset = date.getTimezoneOffset();
+            date = new Date(date.getTime() - (offset * 60 * 1000));
+            let string_day = date.toISOString().split('T')[0];
+            let dayOfWeek = date.getDay();
+
+            // Define time boundaries (24-hour format)
+            const WORK_START = 9; // 9 AM
+            const WORK_END = 17; // 5 PM
+            const NIGHT_START = 20; // 8 PM
+            const NIGHT_END = 6; // 6 AM
+
+            // Check if it's weekend or holiday
+            const isWeekendOrHoliday = dayOfWeek === 0 || dayOfWeek === 6 ||
+                {!! json_encode($holiday_dates) !!}.includes(string_day);
+
+            let totalMinutes = 0;
+
+            // Calculate total duration in minutes
+            let startTotal = startHour * 60 + startMin;
+            let endTotal = endHour * 60 + endMin;
+
+            // Handle overnight case
+            if (endTotal < startTotal) {
+                endTotal += 24 * 60; // Add 24 hours to end time
             }
+
+            let duration = endTotal - startTotal;
+
+            if (isWeekendOrHoliday) {
+                // All hours at 2x
+                totalMinutes = duration * 2;
+            } else {
+                // Split into time periods
+                let current = startTotal;
+
+                while (current < endTotal) {
+                    let periodEnd;
+                    let multiplier;
+
+                    // Determine current period
+                    if (current % (24 * 60) < NIGHT_END * 60) {
+                        // Night period (12am-6am) - 2x
+                        periodEnd = Math.min(endTotal, NIGHT_END * 60);
+                        multiplier = 2;
+                    } else if (current % (24 * 60) < WORK_START * 60) {
+                        // Early morning (6am-9am) - 1.5x
+                        periodEnd = Math.min(endTotal, WORK_START * 60);
+                        multiplier = 1.5;
+                    } else if (current % (24 * 60) < WORK_END * 60) {
+                        // Working hours (9am-5pm) - excluded
+                        periodEnd = Math.min(endTotal, WORK_END * 60);
+                        multiplier = 0;
+                    } else if (current % (24 * 60) < NIGHT_START * 60) {
+                        // Evening (5pm-8pm) - 1.5x
+                        periodEnd = Math.min(endTotal, NIGHT_START * 60);
+                        multiplier = 1.5;
+                    } else {
+                        // Late night (8pm-12am) - 2x
+                        periodEnd = Math.min(endTotal, 24 * 60);
+                        multiplier = 2;
+                    }
+
+                    let periodMinutes = periodEnd - current;
+                    if (periodMinutes > 0) {
+                        totalMinutes += periodMinutes * multiplier;
+                        current = periodEnd;
+                    }
+
+                    // Handle crossing midnight
+                    if (current >= 24 * 60 && current < endTotal) {
+                        current -= 24 * 60;
+                        endTotal -= 24 * 60;
+                    }
+                }
+            }
+
+            // Convert to hours and minutes
+            totalMinutes = Math.ceil(totalMinutes);
+            let hours = Math.floor(totalMinutes / 60);
+            let minutes = totalMinutes % 60;
+
             return (hours <= 9 ? "0" : "") + hours + ":" + (minutes <= 9 ? "0" : "") + minutes;
         }
 

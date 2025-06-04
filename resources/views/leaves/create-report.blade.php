@@ -1,6 +1,6 @@
 <x-sidebar>
     @section('title', __('Leaves Report Form'))
-    <form method="POST" action="{{ route('leaves.generateReport') }}" enctype="multipart/form-data" class="m-2">
+    <form method="GET" action="{{ route('leaves.generateReport') }}" enctype="multipart/form-data" class="m-2">
         @csrf
         <div>
             <label for="employee_id"

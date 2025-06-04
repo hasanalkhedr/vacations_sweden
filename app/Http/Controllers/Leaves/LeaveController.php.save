@@ -133,7 +133,7 @@ class LeaveController extends Controller
         if ($leave->leave_type_id == $recoveryLeave->id) {
             $leave_service->subtractOvertimeMinutes($leave);
         }
-*/
+
         $leave->save();
         $leave_service->sendEmailToInvolvedEmployees($leave, $processing_officers, $leave->substitute_employee);
         return redirect()->route('leaves.submitted');
