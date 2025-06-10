@@ -66,14 +66,14 @@
                         {{ __('Leave Duration') }}
                     </label>
                     <select id="leave_duration_id" name="leave_duration_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            onchange="calculateDateDifference();">
+                        onchange="calculateDateDifference();">
                         <option value="" disabled>{{ __('Choose Leave Duration') }}</option>
-                        @if(count($leave_durations))
-                            @foreach($leave_durations as $leave_duration)
+                        @if (count($leave_durations))
+                            @foreach ($leave_durations as $leave_duration)
                                 <option value="{{ $leave_duration->id }}"
-                                    @if($leave_duration->name == 'One or More Full Days') selected @endif>
+                                    @if ($leave_duration->name == 'One or More Full Days') selected @endif>
                                     {{ __($leave_duration->name) }}
                                 </option>
                             @endforeach
@@ -87,11 +87,11 @@
                         {{ __('Select Leave Type') }}
                     </label>
                     <select id="leave_type" name="leave_type_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="" disabled>{{ __('Select Leave Type') }}</option>
-                        @if(count($leave_types))
-                            @foreach($leave_types as $leave_type)
+                        @if (count($leave_types))
+                            @foreach ($leave_types as $leave_type)
                                 <option value="{{ $leave_type->id }}">{{ __($leave_type->name) }}</option>
                             @endforeach
                         @endif
@@ -105,8 +105,8 @@
                             {{ __('Start Date') }} <span class="text-red-500">*</span>
                         </label>
                         <input required type="text" name="from" id="fromDate"
-                               placeholder="{{ __('Please select date range') }}" data-input
-                               onchange="calculateDateDifference()">
+                            placeholder="{{ __('Please select date range') }}" data-input
+                            onchange="calculateDateDifference()">
                         @error('from')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -116,8 +116,8 @@
                             {{ __('End Date') }} <span class="text-red-500">*</span>
                         </label>
                         <input required type="text" name="to" id="toDate"
-                               placeholder="{{ __('Please select date range') }}" data-input
-                               onchange="calculateDateDifference()">
+                            placeholder="{{ __('Please select date range') }}" data-input
+                            onchange="calculateDateDifference()">
                         @error('to')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -147,11 +147,12 @@
                         <span class="hidden text-red-500" id="attachment_file_span">*</span>
                     </p>
                     <div class="flex w-full">
-                        <label class="px-2 w-max flex flex-col items-center bg-white text-white rounded-lg
+                        <label
+                            class="px-2 w-max flex flex-col items-center bg-white text-white rounded-lg
                                       shadow-lg tracking-wide uppercase border border-blue cursor-pointer blue-bg">
                             <svg class="w-5 h-5" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59
-                                         A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
+                                         A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                             </svg>
                             <span class="text-xs text-white leading-normal">{{ __('Choose File') }}</span>
                             <input type="file" name="attachment_path" id="attachment_path" class="hidden" />
@@ -168,12 +169,12 @@
                         {{ __('Select Substitute') }}
                     </label>
                     <select id="substitute_employee_id" name="substitute_employee_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 blue-color">
                         <option value="" disabled>{{ __('Choose Substitute Employee') }}</option>
                         <option value="">{{ __('No Replacement') }}</option>
-                        @if(count($substitutes))
-                            @foreach($substitutes as $substitute)
+                        @if (count($substitutes))
+                            @foreach ($substitutes as $substitute)
                                 <option value="{{ $substitute->id }}">
                                     {{ $substitute->first_name }} {{ $substitute->last_name }}
                                 </option>
@@ -187,7 +188,7 @@
                     <div>
                         <a href="{{ url(route('leaves.submitted')) }}">
                             <button type="button"
-                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none
+                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none
                                            focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium
                                            px-5 py-2.5 hover:text-gray-900 focus:z-10">
                                 {{ __('Cancel') }}
@@ -196,7 +197,7 @@
                     </div>
                     <div>
                         <button id="createButton"
-                                class="text-white hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300
+                            class="text-white hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300
                                        font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center blue-bg">
                             {{ __('Create') }}
                         </button>
@@ -234,12 +235,13 @@
 
         function isDateDisabled(date) {
             const date_temp = new Date(date.getTime());
-            const disabled_date = new Date(Date.parse(new Date(date_temp.setDate(date_temp.getDate() + 1)))).toISOString().split('T')[0];
+            const disabled_date = new Date(Date.parse(new Date(date_temp.setDate(date_temp.getDate() + 1)))).toISOString()
+                .split('T')[0];
 
             // If skipBlockedDatesCheck is true, do not check blocked_dates.
             const isWeekendOrOther = weekdays_off.includes(date.getDay()) ||
-                                    holiday_dates.includes(disabled_date) ||
-                                    disabled_dates.includes(disabled_date);
+                holiday_dates.includes(disabled_date) ||
+                disabled_dates.includes(disabled_date);
 
             // Check blocked_dates only if skipBlockedDatesCheck is false
             const isInBlockedDates = !skipBlockedDatesCheck && blocked_dates.includes(disabled_date);
@@ -287,11 +289,11 @@
             const selectedLeaveDurationText = $("#leave_duration_id option:selected").text().toLowerCase();
 
             // Check conditions for recovery leaves
-            if (selectedLeaveTypeText === "recovery" || selectedLeaveTypeText ==="{{__("recovery")}}".toLowerCase()) {
+            if (selectedLeaveTypeText === "recovery" || selectedLeaveTypeText === "{{ __('recovery') }}".toLowerCase()) {
                 handleRecoveryLeaveChecks(dateDifference, selectedLeaveDurationText);
             }
             // Check other leave types (excluding remote work or handling them as well)
-            else if (selectedLeaveTypeText !== "{{__('remote work')}}".toLowerCase()) {
+            else if (selectedLeaveTypeText !== "{{ __('remote work') }}".toLowerCase()) {
                 handleRegularLeaveChecks(dateDifference, selectedLeaveDurationText);
             }
         }
@@ -302,16 +304,16 @@
                 // One or More Full Days
                 if (dateDifference > userOvertimeDays) {
                     let text = "{{ __('You chose a range of') }} " + dateDifference +
-                               " {{ __('days but you only have') }} " + userOvertimeDays +
-                               " {{ __('leave days left') }}";
+                        " {{ __('days but you only have') }} " + userOvertimeDays +
+                        " {{ __('leave days left') }}";
                     disableButtonAndShowError(text);
                 }
             } else {
                 // Half-day scenario
                 if (dateDifference > (2 * userOvertimeDays)) {
                     let text = "{{ __('You chose a range of') }} " + (dateDifference / 2) +
-                               " {{ __('days but you only have') }} " + userOvertimeDays +
-                               " {{ __('leave days left') }}";
+                        " {{ __('days but you only have') }} " + userOvertimeDays +
+                        " {{ __('leave days left') }}";
                     disableButtonAndShowError(text);
                 }
             }
@@ -322,19 +324,39 @@
             if (leaveDurationText.includes("full days") || leaveDurationText.includes("journée entière")) {
                 if (dateDifference > userNbOfDays) {
                     let text = "{{ __('You chose a range of') }} " + dateDifference +
-                               " {{ __('days but you only have') }} " + userNbOfDays +
-                               " {{ __('leave days left') }}";
+                        " {{ __('days but you only have') }} " + userNbOfDays +
+                        " {{ __('leave days left') }}";
                     disableButtonAndShowError(text);
                 }
             } else {
                 // Half-day scenario
                 if (dateDifference > (2 * userNbOfDays)) {
                     let text = "{{ __('You chose a range of') }} " + (dateDifference / 2) +
-                               " {{ __('days but you only have') }} " + userNbOfDays +
-                               " {{ __('leave days left') }}";
+                        " {{ __('days but you only have') }} " + userNbOfDays +
+                        " {{ __('leave days left') }}";
                     disableButtonAndShowError(text);
                 }
             }
+        }
+
+        function getWeekdaysCount(startDate, endDate) {
+            let count = 0;
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Make sure start date is before or equal to end date
+            if (start > end) return 0;
+
+            const current = new Date(start);
+            while (current <= end) {
+                const day = current.getDay(); // 0 = Sunday, 6 = Saturday
+                if (day !== 0 && day !== 6) {
+                    count++;
+                }
+                current.setDate(current.getDate() + 1);
+            }
+
+            return count;
         }
 
         function checkBalanceBeforeSubmit() {
@@ -356,11 +378,15 @@
 
             const start = new Date(changeDateFormat(fromDate));
             const end = new Date(changeDateFormat(toDate));
-            const requestedDays = ((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1;
+            const requestedDays = getWeekdaysCount(start, end);
+            console.log(remainingDays, totalPending, requestedDays);
 
             if (remainingDays - totalPending < requestedDays) {
-                let errorText = "{{ __('You have insufficient balance to submit this request. ' .
-                                      'You may have already booked more days than available in your balance.') }}";
+                let errorText =
+                    "{{ __(
+                        'You have insufficient balance to submit this request. ' .
+                            'You may have already booked more days than available in your balance.',
+                    ) }}";
                 disableButtonAndShowError(errorText);
                 return false;
             }
@@ -384,7 +410,9 @@
                     return isDateDisabled(date);
                 }
             ],
-            locale: { firstDayOfWeek: 1 },
+            locale: {
+                firstDayOfWeek: 1
+            },
             allowInput: true,
             onClose: function(selectedDates, dateStr) {
                 if (dateStr) {
@@ -400,7 +428,9 @@
                     return isDateDisabled(date);
                 }
             ],
-            locale: { firstDayOfWeek: 1 },
+            locale: {
+                firstDayOfWeek: 1
+            },
             allowInput: true,
         });
     </script>
@@ -413,7 +443,7 @@
             const attachmentInput = document.getElementById("attachment_path");
 
             // Show attachment requirement for sick leave
-            if (selectedTypeText === '{{__("sick leave")}}'.toLowerCase()) {
+            if (selectedTypeText === '{{ __('sick leave') }}'.toLowerCase()) {
                 attachmentSpan.classList.remove('hidden');
                 attachmentInput.required = true;
             } else {
@@ -422,7 +452,8 @@
             }
 
             // If leave type is sick or bereavement, skip disabled_dates check
-            if (['sick leave', 'bereavement leave'].includes(selectedTypeText) || ['arrêt maladie', 'congé deuil'].includes(selectedTypeText)) {
+            if (['sick leave', 'bereavement leave'].includes(selectedTypeText) || ['arrêt maladie', 'congé deuil']
+                .includes(selectedTypeText)) {
                 skipBlockedDatesCheck = true;
             } else {
                 skipBlockedDatesCheck = false;
