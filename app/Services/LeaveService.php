@@ -263,7 +263,7 @@ $recoveryLeave = LeaveType::where('name', 'recovery')->first();
         }
 
         return $data;
-    }
+    }*/
 
     public function filterLeaves($leaves, $leave_type)
     {
@@ -271,7 +271,7 @@ $recoveryLeave = LeaveType::where('name', 'recovery')->first();
             return $value['leave_type_id'] == LeaveType::where('name', $leave_type->name)->first()->id;
         });
     }
-*/
+
 public function fetchLeaves($employee_id, $filtered_leave_types_ids, $from_date, $to_date) {
         // Base query
         $query = Leave::where('employee_id', $employee_id)
@@ -287,10 +287,20 @@ public function fetchLeaves($employee_id, $filtered_leave_types_ids, $from_date,
                         });
                     });
 // Get counts by leave type
-        $counts = LeaveType::withCount(['leaves' => function($q) use ($query) {
-            $q->mergeConstraintsFrom($query);
-        }])->get()->pluck('leaves_count', 'name')->toArray();
-
+        // $counts = LeaveType::withCount(['leaves' => function($q) use ($query) {
+        //     $q->mergeConstraintsFrom($query);
+        // }])->get()->pluck('leaves_count', 'name')->toArray();
+$leave_types = LeaveType::all();
+        $counts = [];
+        foreach ($leave_types as $leave_type) {
+            $filteredLeaves = $this->filterLeaves($query->get(), $leave_type);
+            $totalDaysOff = $this->calculateTotalDaysOff($filteredLeaves, $from_date, $to_date);
+            $counts[$leave_type->name] = $totalDaysOff;
+            // $data[$leave_type->name] = [
+            //     'items' => $filteredLeaves,
+            //     'number_of_days_off' => $totalDaysOff,
+            // ];
+        }
         // Get paginated results
         $paginatedLeaves = $query->paginate(15);
 
